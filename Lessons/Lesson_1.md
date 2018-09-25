@@ -1,27 +1,63 @@
 -- *Slide* --
-# Part Zero: Goals for today
-* Part 1: Understanding GPU Technology
-* Part 2: Understanding Application Interfaces
-* Part 3: Understanding CUDA Programming
-* Part 4: Understanding Debugging, Profiling, and Optimisation
+### Part Zero: Goals for today
+* Part 1: GPU Technology and UniMelb
+* Part 2: OpenACC and OpenMPI Acceleration
+* Part 3: CUDA Programming
+* Part 4: Debugging, Profiling, and Optimisation
 -- *Slide End* --
 
 -- *Slide* --
-## Part One: GPU Technology
+### Part 1: Definition and History
+* The Graphic Processing Unit (GPU) is a processor that was specialised for processing graphics.
+* A general purpose GPU recognises that algorithms, not designed for graphics processing, can also make use of the architecture. 
+* A CPU has low latency and good throughput (compute a job as quickly as possible), whereas a GPU has high throughput and good latency (compute as many jobs as possible). 
 -- *Slide End* --
 
 -- *Slide* --
-### Definition and History
-* The Graphic Processing Unit (GPU) is a processor that was specialised for processing graphics; the die includes processor cores, render output units, frame buffers, thread scheduler, and texture mapping units.
-* A general purpose GPU recognises that algorithms, not designed for graphics processing. can also make use of the architecture. GPGPU technology is massively parallel compared to CPUs (more cores, more threads), is inexpensive, and programmable (e.g., with CUDA).
-* A CPU has low latency and good throughput (compute a job as quickly as possible), whereas a GPU has high throughput and good latency (compute as many jobs as possible). However GPGPU technology is accelerating faster than CPU technology. 
+### Part 1: Programming GPGPUs
+* GPU programming is a type of SIMD parallelisation; single instruction, multiple data. 
+* Performance improvements come from sending the sequential parts of the code to the CPU, compute intensive SIMD parts to the GPU.
+* Impressive performance gains; 5x, 10x, 20x - and energy efficiency (10x performance, c5x energy per socket) 
+* Several APIs; CUDA, OpenACC, OpenMP, and OpenCL.
 -- *Slide End* --
 
 -- *Slide* --
-### Programming GPGPUs
-* CUDA was introduced by NVidia in 2006, as a compilerr and application toolkit for NVidia GPGPUs. The CUDA API extends the C, C++ programming languages. CUDA is, however, vendor specific. 
-* OpenCL will become an industry standard in the future, however is a lower-level specification and therefore harder to program than with CUDA. Porting CUDA to OpenCL is becoming easier.
-* CUDA does provide a high level of hardware abstraction and automation of thread management. The main challenge to the programmer - keep the GPGPU busy!
+
+-- *Slide End* --
+
+-- *Slide* --
+### Part 1: CUDA, OpenACC, OpenMP
+* CUDA was introduced by NVidia in 2006, as a compiler and application toolkit for NVidia GPGPUs. Originally Compute Unified Device Architecture. See: https://developer.nvidia.com/about-cuda
+* CUDA does provide a high level of hardware abstraction and automation of thread management. There is also  numerical libraries, such as cuBLAS, and cuFFT.
+* OpenACC (open accelerators) uses compiler directives to invoke acceleration. Works with C, C++ and Fortran source code. See: http://www.openacc-standard.org/
+* Since v4.0, OpenMP also supports accelerator directive. See: http://openmp.org
+-- *Slide End* --
+
+-- *Slide* --
+### Part 1: OpenCL
+* OpenCL will become an industry standard in the future, however is a lower-level specification and therefore harder to program than with CUDA. See: https://www.khronos.org/opencl/
+* OpenCL is cross-platform and multiple vendor open standard for C/C++
+* Works on a diverse compute resources (e.g., CPU, GPU, DSP, FPGA) and can use same code base on each.
+-- *Slide End* --
+
+-- *Slide* --
+### Part 1: GPUs on Spartan
+* Spartan has a number of GPU partitions on Spartan; only a few for general use (gpu), many for projects that are recipients of LE170100200 grant (gpgpu partitions), plus additional purchases. 
+* The general gpu partition includes four Nvidia K80 GPUs per node, while the newer gpgpu partition includes four Nvidia P100 GPUs per node. 
+* GPGPU partitions are across multiple universities with allocations in proportion to funding.
+* Theoretical maximum performance of around 900 teraflops. 
+-- *Slide End* --
+
+### Part 1: CUDA and Slurm
+-- *Slide* --
+* A number of applications on Spartan have already been compiled with CUDA-specific toolchains; including CUDA from 7.0.28 to 9.2.88, FFTW, GROMACS, NAMD, OpenMPI, PyTorch, Python, RapidCFD, Tensorflow, Torch, etc.
+* These are like any other job submission with the following caveats: (1) You will need to specifiy the partition that you are using., (2) You will need to specify the account (projectID) that you are using for the gpgpu partitions., (3) You will need to request a generic resource for your job script. 
+-- *Slide End* --
+
+### Part 1: Example Slurm Scripts
+-- *Slide* --
+* A small number of example GPU-example job submission scripts are available on Spartan.
+* For example Tensorflow (`/usr/local/common/Tensorflow`) and NAMD (`/usr/local/common/NAMD`) - the latter has GPU and non-GPU comparisons.
 -- *Slide End* --
 
 -- *Slide* --
@@ -41,16 +77,6 @@
 -- *Slide* --
 ### CUDA Simple Example
 * Simple example, adds two arrays. Note threadIDx variable, sets threadID.
-
-
-
--- *Slide* --
-### Early Usage
--- *Slide End* --
-
--- *Slide* --
-### Stream processing and general purpose GPUs
--- *Slide End* --
 
 -- *Slide* --
 ### GPUs on Spartan
@@ -78,6 +104,7 @@
 
 -- *Slide* --
 ### From Serial to GPU Code
+
 -- *Slide End* --
 
 -- *Slide* --

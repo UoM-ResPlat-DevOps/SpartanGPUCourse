@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Spartan GPU Training</title>
+
+    <meta name="description" content="Slides for the introductory course for GPU programming on the Spartan HPC system.">
+    <meta name="author" content="Lev Lafayette"">
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="reveal.js/css/theme/white.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+<!-- to give this presentation list items numbered A, B, C etc.. for use in questions -->
+<style type="text/css">.reveal ol {list-style-type: upper-alpha;}</style>
+<!-- Slides go here -->
+<section data-markdown><script type="text/template">
+### Part Zero: Goals for today
+* Part 1: GPU Technology and UniMelb
+* Part 2: OpenACC and OpenMPI Acceleration
+* Part 3: CUDA Programming
+* Part 4: Debugging, Profiling, and Optimisation
+</script></section>
+<section data-markdown><script type="text/template">
+### Part 1: Definition and History
+* The Graphic Processing Unit (GPU) is a processor that was specialised for processing graphics.
+* A general purpose GPU recognises that algorithms, not designed for graphics processing, can also make use of the architecture. 
+* A CPU has low latency and good throughput (compute a job as quickly as possible), whereas a GPU has high throughput and good latency (compute as many jobs as possible). 
+</script></section>
+<section data-markdown><script type="text/template">
+### Part 1: Programming GPGPUs
+* GPU programming is a type of SIMD parallelisation; single instruction, multiple data. 
+* Performance improvements come from sending the sequential parts of the code to the CPU, compute intensive SIMD parts to the GPU.
+* Impressive performance gains; 5x, 10x, 20x - and energy efficiency (10x performance, c5x energy per socket) 
+* Several APIs; CUDA, OpenACC, OpenMP, and OpenCL.
+</script></section>
+<section data-markdown><script type="text/template">
+
+</script></section>
+<section data-markdown><script type="text/template">
+### Part 1: CUDA, OpenACC, OpenMP
+* CUDA was introduced by NVidia in 2006, as a compiler and application toolkit for NVidia GPGPUs. Originally Compute Unified Device Architecture. See: https://developer.nvidia.com/about-cuda
+* CUDA does provide a high level of hardware abstraction and automation of thread management. There is also  numerical libraries, such as cuBLAS, and cuFFT.
+* OpenACC (open accelerators) uses compiler directives to invoke acceleration. Works with C, C++ and Fortran source code. See: http://www.openacc-standard.org/
+* Since v4.0, OpenMP also supports accelerator directive. See: http://openmp.org
+</script></section>
+<section data-markdown><script type="text/template">
+### Part 1: OpenCL
+* OpenCL will become an industry standard in the future, however is a lower-level specification and therefore harder to program than with CUDA. See: https://www.khronos.org/opencl/
+* OpenCL is cross-platform and multiple vendor open standard for C/C++
+* Works on a diverse compute resources (e.g., CPU, GPU, DSP, FPGA) and can use same code base on each.
+</script></section>
+<section data-markdown><script type="text/template">
+### Part 1: GPUs on Spartan
+* Spartan has a number of GPU partitions on Spartan; only a few for general use (gpu), many for projects that are recipients of LE170100200 grant (gpgpu partitions), plus additional purchases. 
+* The general gpu partition includes four Nvidia K80 GPUs per node, while the newer gpgpu partition includes four Nvidia P100 GPUs per node. 
+* GPGPU partitions are across multiple universities with allocations in proportion to funding.
+* Theoretical maximum performance of around 900 teraflops. 
+</script></section>
+<section data-markdown><script type="text/template">
+* A number of applications on Spartan have already been compiled with CUDA-specific toolchains; including CUDA from 7.0.28 to 9.2.88, FFTW, GROMACS, NAMD, OpenMPI, PyTorch, Python, RapidCFD, Tensorflow, Torch, etc.
+* These are like any other job submission with the following caveats: (1) You will need to specifiy the partition that you are using., (2) You will need to specify the account (projectID) that you are using for the gpgpu partitions., (3) You will need to request a generic resource for your job script. 
+</script></section>
+<section data-markdown><script type="text/template">
+* A small number of example GPU-example job submission scripts are available on Spartan.
+* For example Tensorflow (`/usr/local/common/Tensorflow`) and NAMD (`/usr/local/common/NAMD`) - the latter has GPU and non-GPU comparisons.
+</script></section>
+<section data-markdown><script type="text/template">
+### CUDA Program and Memory Hierarchy
+* A CUDA _kernel_ (a C program) is executed by _thread_. Each thread has it own ID, and thousands of threads execute same kernel and will access registers and local memory. 
+* Threads are grouped into _blocks_, which will access shared memory, and threads in a block can synchronize execution. 
+* Blocks are grouped into a _grid_, that can access global memory, and each block must be independent.
+</script></section>
+<section data-markdown><script type="text/template">
+### CUDA Basic C Extensions
+* Basic Function modifiers are `__global__` (to be called by the host but executed by the GPU) and `__host__ ` (to be called and executed by the host).
+* Basic variable modifiers are `__shared__` (variable in shared memory), and `__syncthreads()` (sync of threads within a block).
+* Basic kernel launch paramters are Block size and Grid Size - dependens on hardware.
+</script></section>
+<section data-markdown><script type="text/template">
+### GPUs on Spartan
+</script></section>
+<section data-markdown><script type="text/template">
+## Part Two: Application Interfaces
+</script></section>
+<section data-markdown><script type="text/template">
+### Deep Learning Applications
+</script></section>
+<section data-markdown><script type="text/template">
+### CUDA Applications on Spartan
+</script></section>
+<section data-markdown><script type="text/template">
+### OpenACC Compiler directives
+</script></section>
+<section data-markdown><script type="text/template">
+## Part Three: CUDA Programming
+</script></section>
+<section data-markdown><script type="text/template">
+### From Serial to GPU Code
+
+</script></section>
+<section data-markdown><script type="text/template">
+### Libraries (CUBLAS, CUDART, CUFFT, CURAND etc etc)
+</script></section>
+<section data-markdown><script type="text/template">
+## Part Four: Debugging, Profiling, and Optimisation
+</script></section>
+<section data-markdown><script type="text/template">
+### Profiling
+* To enable the cuda profiler to analyse your program, see the example Slurm Script in `/usr/local/common`
+
+</script></section>
+<section data-markdown><script type="text/template">
+### Debugging
+</script></section>
+<section data-markdown><script type="text/template">
+### Optimisation
+</script></section>
+    </div>
+
+</div>
+
+<script src="reveal.js/lib/js/head.min.js"></script>
+<script src="reveal.js/js/reveal.js"></script>
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: false,
+
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            {
+                src: 'reveal.js/lib/js/classList.js', condition: function () {
+                return !document.body.classList;
+            }
+            },
+            {
+                src: 'reveal.js/plugin/markdown/marked.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'reveal.js/plugin/markdown/markdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'reveal.js/plugin/highlight/highlight.js', async: true, condition: function () {
+                return !!document.querySelector('pre code');
+            }, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            },
+            {src: 'reveal.js/plugin/zoom-js/zoom.js', async: true},
+            {src: 'reveal.js/plugin/notes/notes.js', async: true}
+        ]
+    });
+
+</script>
+
+</body>
+</html>
