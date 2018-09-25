@@ -1,9 +1,15 @@
 -- *Slide* --
-### Part Zero: Goals for today
+### Part 0: Goals for today
 * Part 1: GPU Technology and UniMelb
-* Part 2: OpenACC and OpenMPI Acceleration
+* Part 2: OpenMPI and OpenACC Acceleration
 * Part 3: CUDA Programming
 * Part 4: Debugging, Profiling, and Optimisation
+-- *Slide End* --
+
+-- *Slide* --
+### Part 0: Slide Repository
+* A copy of the slides and same code is available at: https://github.com/UoM-ResPlat-DevOps/SpartanGPUCourse
+* Make use of our resources: `man spartan`, `/usr/local/common`, `dashboard.hpc.unimelb.edu.au`, `hpc-support@unimelb.edu.au`
 -- *Slide End* --
 
 -- *Slide* --
@@ -22,7 +28,7 @@
 -- *Slide End* --
 
 -- *Slide* --
-<img src="https://raw.githubusercontent.com/UoM-ResPlat-DevOps/SpartanGPUCourse/master/Images/Natoli-CPUvGPU-peak-DP-600x-300x232.png" /><img src="https://raw.githubusercontent.com/UoM-ResPlat-DevOps/SpartanGPUCourse/master/Images/Natoli-CPUvGPU-peak-mem-bw-600x-300x241.png" />
+<img src="https://raw.githubusercontent.com/UoM-ResPlat-DevOps/SpartanGPUCourse/master/Images/Natoli-CPUvGPU-peak-DP-600x-300x232.png" /> <img src="https://raw.githubusercontent.com/UoM-ResPlat-DevOps/SpartanGPUCourse/master/Images/Natoli-CPUvGPU-peak-mem-bw-600x-300x241.png" /><br />
 Images from HPCWire `https://www.hpcwire.com/2016/08/23/2016-important-year-hpc-two-decades/`
 -- *Slide End* --
 
@@ -49,17 +55,30 @@ Images from HPCWire `https://www.hpcwire.com/2016/08/23/2016-important-year-hpc-
 * Theoretical maximum performance of around 900 teraflops. 
 -- *Slide End* --
 
-### Part 1: CUDA and Slurm
 -- *Slide* --
+### Part 1: CUDA and Slurm
 * A number of applications on Spartan have already been compiled with CUDA-specific toolchains; including CUDA from 7.0.28 to 9.2.88, FFTW, GROMACS, NAMD, OpenMPI, PyTorch, Python, RapidCFD, Tensorflow, Torch, etc.
 * These are like any other job submission with the following caveats: (1) You will need to specifiy the partition that you are using., (2) You will need to specify the account (projectID) that you are using for the gpgpu partitions., (3) You will need to request a generic resource for your job script. 
 -- *Slide End* --
 
-### Part 1: Example Slurm Scripts
 -- *Slide* --
+### Part 1: Example Slurm Scripts
 * A small number of example GPU-example job submission scripts are available on Spartan.
 * For example Tensorflow (`/usr/local/common/Tensorflow`) and NAMD (`/usr/local/common/NAMD`) - the latter has GPU and non-GPU comparisons.
 -- *Slide End* --
+
+-- *Slide* --
+### Part 2: OpenMP with Accelerators
+* In the OpenMP API 4.0 (2013), the specification provides a set of directives to offload code blocks of code to the accelerator devices (GPU, FPGA etc).
+
+
+-- *Slide End* --
+
+
+
+
+
+
 
 -- *Slide* --
 ### CUDA Program and Memory Hierarchy

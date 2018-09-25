@@ -23,6 +23,12 @@
 ### Part 1: CUDA and Slurm
 * CUDA toolchain is required to make GPUs work as expected. Approximately 250 applications and libraries in total
 * For example #SBATCH --partition gpu and #SBATCH --partition gpgpu. For example  For example #SBATCH --gres=gpu:2 will request two GPUs for your job.
+* You can specify project at submission time: e.g., sbatch -A projectID script.slurm
+
+### Part 1: Example Slurm Scripts
+CPU Example WallClock: 66.138824  CPUTime: 64.785332  Memory: 236.933594 MB
+GPU Example WallClock: 18.759842  CPUTime: 17.847618  Memory: 1319.082031 MB
+
 
 
 
