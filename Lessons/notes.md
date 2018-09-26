@@ -2,10 +2,12 @@
 * The die includes processor cores, render output units, frame buffers, thread scheduler, and texture mapping units
 * GPGPU technology is massively parallel compared to CPUs (more cores, more threads), is inexpensive, and programmable (e.g., with CUDA).
 * However GPGPU technology is accelerating faster than CPU technology. 
+* CPUs are becoming more “GPU-like”; Increasing number of cores, Increasing vector parallelism,  and GPUs are becoming more “CPU-like”; Increasing levels and sizes of cache, Increasing capability of thread management
 
 ### Part 1: Programming GPGPUs
 * GPUs are not suitable for all programming tasks. Investigate other algorithms if possible. Break the problem into discrete sections of work that can be distributed to multiple tasks (decomposition).
 * The main challenge to the programmer - keep the GPGPU busy!
+* GeForce GTX 280 is 10 years old, still runs well.
 
 ### Part 1: OpenACC, OpenMP, CUDA
 * The CUDA API extends the C, C++ programming languages. Specific to NVIDIA hardware. 
@@ -16,11 +18,13 @@
 * Not taught in this *introductory* course.
 
 ### Part 1: GPUs on Spartan
+* K80s specs (2.9TF double precision, 4992 CUDA cores, 562 MHz); P100 specs (4.7TF, 3584 CUDA cores, 1126MHz) - greater with NVLink
 * There are three nodes (only) available for general use (gpu partition), five nodes for physics (two exclusive, three shared), and a much larger set of GPGPU partitions (shortgpgpu, 6 nodes; gpgpu partition 59 nodes, gpgpu-test 6 nodes, deeplearn (engineering purchased) 4 nodes). 
-* MDHS inc. StV – 5.22 Nodes, Melbourne Bio – 10.43, Resplat (General Access) – 10.43, MSE – 24.4, MSE Mech Eng – 4.86, Latrobe – 5.22, RMIT – 5.22, Deakin – 5.22. Total Nodes = 71 (excludes 2 nodes for testing)/
+* MDHS inc. StV – 5.22 Nodes, Melbourne Bio – 10.43, Resplat (General Access) – 10.43, MSE – 24.4, MSE Mech Eng – 4.86, Latrobe – 5.22, RMIT – 5.22, Deakin – 5.22. Total Nodes = 71 (excludes 2 nodes for testing)
 * These GPGPU nodes will be presented in 3 subclusters and will be released in stages. 
 
 ### Part 1: CUDA and Slurm
+* Including CUDA from 7.0.28 to 9.2.88, FFTW, GROMACS, NAMD, OpenMPI, PyTorch, Python, RapidCFD, Tensorflow, Torch, etc.
 * CUDA toolchain is required to make GPUs work as expected. Approximately 250 applications and libraries in total
 * For example #SBATCH --partition gpu and #SBATCH --partition gpgpu. For example  For example #SBATCH --gres=gpu:2 will request two GPUs for your job.
 * You can specify project at submission time: e.g., sbatch -A projectID script.slurm
@@ -32,16 +36,29 @@ GPU Example WallClock: 18.759842  CPUTime: 17.847618  Memory: 1319.082031 MB
 ### Part 2: Introduction to OpenACC
 GCC > 6.0 supports OpenACC 2.0a - I haven't tested this!
 
+### Part 2: OpenACC Kernels Construct
+Will attempt to resolve any data dependencies, and data movement. If successful, it produces a kernel to run on the accelerator or it let's the programmer know that the region was not available for parallel execution
+
+### Part 2: Array Shaping
+* e.g., #pragma acc data pcopyin(x[0:ROWS][0:COLS], y[0:ROWS][0:COLS])) pcopyout[y[0:ROWS][0:COLS])
+
 ### Part 2: Kernels vs Parallel Directives
+Kernel They direct the compiler to produce and arbitrary numebr of kernels of arbitrary dimensions, to execute in sequence, and to offload code sections to the accelerator.
+Parallel by specifying specific dimensions of parallelisation (e.g., `vector` and `gang` parallelism)
 See README.md
+
 
 ### Part 3: CUDA Synchronisation
 
 ### Part 3: "Hello World", CUDA-style
 The kernel is launching with 1 block of threads (the first execution configuration argument) which contains 1 thread (the second configuration argument).
 
+### Part 3: CUDA Compilation Flags
+`-gencode` allows for more PTX (Parallel Thread Execution) generations, and can be repeated many times for different architectures, and repeat the sequence for each target
+
 ### Part 3: Launching Parallel Kernels
 compile and modify `01-basic-parallel.cu` to represent choices.
+Vector addition as well? Ai+Bi=Ci
 
 ### Part 3: CUDA Thread Hierarchy Variables
 Comile and modify `01-single-block-loop-solution.cu`
