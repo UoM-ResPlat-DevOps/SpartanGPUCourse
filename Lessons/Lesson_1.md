@@ -63,14 +63,15 @@ Images from HPCWire `https://www.hpcwire.com/2016/08/23/2016-important-year-hpc-
 
 -- *Slide* --
 ### Part 1: GPUs on Spartan
-* Spartan has a number of GPU partitions on Spartan; only a few for general use (gpu), many for projects that are recipients of LE170100200 grant (gpgpu partitions), plus additional departmental purchases. 
-* The general gpu partition includes four Nvidia K80 GPUs per node, while the newer gpgpu partition includes four Nvidia P100 GPUs per node. 
+* Spartan has a number of GPU partitions on Spartan for projects that are recipients of LE170100200 grant, plus additional departmental purchases. 
+* The general gpgpu partition includes four Nvidia P100 GPUs per node; some specialist partitions have V100s (e.g., deeplearn). 
+* Check a node with `nvidia-smi`.
 -- *Slide End* --
 
 -- *Slide* --
 ### Part 1: GPGPU Partition on Spartan
 * GPGPU partitions are across multiple universities with allocations in proportion to funding.
-* Theoretical maximum performance of around 900 teraflops. 
+* Theoretical maximum performance of 900+ teraflops. 
 -- *Slide End* --
 
 -- *Slide* --
@@ -130,7 +131,7 @@ Image from NVidia developer blog
 
 -- *Slide* --
 ### Part 2: OpenACC Data Construct Clauses
-* Several clauses can be used with the kernels, and data constructs (among others), including copy(list), copyin(list), copyout(list), create(list), present(list), present_or_*(list)
+* Several clauses can be used with the kernels, and data constructs (among others), including copy(list), copyin(list), copyout(list), create(list), present(list), presentor\_or\_*(list)
 -- *Slide End* --
 
 -- *Slide* --
@@ -147,8 +148,25 @@ address after start. In Fortran, array shape is described as y[start:end].
 
 -- *Slide* --
 ### Part 2: Kernels vs Parallel Directives
-* The `kernels` directive, used in this course, is a general case statement.
-* The `parallel` directive allows further finer-grained control of how the compiler will attempt to structure work on the accelerator. 
+* The `kernels` directive, used in this course, is a general case statement and is descriptive.
+* The `parallel` directive, is prescriptive and allows further finer-grained control of how the compiler will attempt to structure work on the accelerator. 
+-- *Slide End* --
+
+-- *Slide* --
+### Part 2: Parallel Loop Directive
+* The `parallel` directive can be combined with a `loop` directive, creating a `parallel loop`, forcing the compiler to process the loop in parallel.
+e.g., 
+``` #pragma acc parallel loop 
+for (int i=0; i<N; i++)
+	{ C[i] = A[i] + B[i];
+	}
+``` 
+-- *Slide End* --
+
+-- *Slide* --
+### Part 2: Responsibilities
+* With the `kernel` directive it is the compiler's responsibility to determine what it safe to parallize. A single directive can cover a large area of code.
+* With the `parallel loop` directive, the programmer has the responsibility. May be easier is the programmer is familiar with OpenMP.
 -- *Slide End* --
 
 -- *Slide* --
