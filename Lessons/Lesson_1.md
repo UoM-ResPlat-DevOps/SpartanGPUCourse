@@ -39,7 +39,7 @@ Images from HPCWire `https://www.hpcwire.com/2016/08/23/2016-important-year-hpc-
 ### Part 1: How to Accelerate Code
 * Third party libraries and application extensions; minimal effort, excellent performance, not very flexible.
 * OpenACC/OpenMP directives; minor effort, lowest performance, portable between GPU/CPU and CPU-only systems.
-* Programming extensions (CUDA, OpenCL); significant effort, potentially best performance, not very flexible.
+* Programming extensions (CUDA, OpenCL); significant effort, potentially best performance, very flexible.
 -- *Slide End* --
 
 -- *Slide* --
