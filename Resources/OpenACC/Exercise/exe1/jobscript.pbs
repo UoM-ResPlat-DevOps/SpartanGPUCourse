@@ -1,0 +1,13 @@
+#!/bin/bash
+#PBS -q gpu
+#PBS -l ngpus=2
+#PBS -l ncpus=6
+#PBS -l mem=1GB
+#PBS -l jobfs=1GB
+#PBS -l wd
+
+module load pgi/17.10c
+
+cmd='time -p'
+
+${cmd} pgprof --cpu-profiling-scope instruction --cpu-profiling-mode top-down ./heat_eq_serial 

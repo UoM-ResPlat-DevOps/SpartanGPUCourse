@@ -290,10 +290,3 @@ Tutorial on GPU computing: With an introduction to CUDA, Felipe A. Cruz, Univers
 <img src="https://raw.githubusercontent.com/UoM-ResPlat-DevOps/SpartanGPUCourse/master/Images/hypnotoad.png" />
 -- *Slide End* --
 
-
-
-
-
-
-
-

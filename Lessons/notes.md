@@ -66,7 +66,7 @@ Comile and modify `01-single-block-loop-solution.cu`
 ### Coordinating Parallel Threads
 Compile and modify `02-multi-block-loop.cu`
 
-### Part 3: CPU and GPU Memory Allocation
+q### Part 3: CPU and GPU Memory Allocation
 The program allocates an array, initializes it with integer values on the host, attempts to double each of these values in parallel on the GPU, and then confirms whether or not the doubling operations were successful, on the host.
 
 Currently the program will not work: it is attempting to interact on both the host and the device with an array at pointer a, but has only allocated the array (using malloc) to be accessible on the host. 
