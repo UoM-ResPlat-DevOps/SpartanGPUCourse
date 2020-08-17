@@ -98,6 +98,14 @@ Images from HPCWire `https://www.hpcwire.com/2016/08/23/2016-important-year-hpc-
 -- *Slide End* --
 
 -- *Slide* --
+### Part 2: Profiling
+* Profiling is very important with GPGPUs, and there are good tools with PGI compilers.
+* Computation Intensity = Compute Operations / Memory Operations
+* Computational Intensity of 1.0 or greater suggests that the loop might run well on a GPU
+* Run the example in OpenACC/Profile
+-- *Slide End* --
+
+-- *Slide* --
 ### Part 2: Laplace Equation Decomposition
 * Example problem (from the Pawsey Supercomputing Centre); Heating a metal plate, simulated by solving Laplace equation ∇^2 f x,y = 0.
 * The steady state response is solved as a 2D grid where the temperature of every ith grid point is an average of its 4 neighbours.
@@ -109,6 +117,12 @@ Images from HPCWire `https://www.hpcwire.com/2016/08/23/2016-important-year-hpc-
 * The `kernels` pragma suggests to the compiler to concentrate on loops in the code block.
 * The compiler will run in parallel if it can.
 * The syntax is `#pragma acc kernels directive [clause]` in C or `!$acc kernels` and `$!acc kernels end` in Fortran.
+-- *Slide End* --
+
+-- *Slide* --
+### Part 2: Compiler Actions
+* The kernels directive descriptive. It tells the compiler that a region can be made parallel. The compiler will analyze the code, identify which data has to be transferred, create a kernel and offload the kernel to the GPU.
+* Note that this is different to OpenMP directives, which tell the compiler what to do, i.e., they are prescriptive. There is less control with many OpenMP directives, because it is up to compiler to decide what to do with descriptive directives.
 -- *Slide End* --
 
 -- *Slide* --
@@ -148,8 +162,8 @@ address after start. In Fortran, array shape is described as y[start:end].
 
 -- *Slide* --
 ### Part 2: Kernels vs Parallel Directives
-* The `kernels` directive, used in this course, is a general case statement and is descriptive.
-* The `parallel` directive, is prescriptive and allows further finer-grained control of how the compiler will attempt to structure work on the accelerator. 
+* The `kernels` directive, used in this course, is a general case statement and is descriptive. The compiler works out what to do,
+* The `parallel` directive, is prescriptive and allows further finer-grained control of how the compiler will attempt to structure work on the accelerator. It means the programmer can make errors.
 -- *Slide End* --
 
 -- *Slide* --
