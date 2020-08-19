@@ -70,8 +70,8 @@ Images from HPCWire `https://www.hpcwire.com/2016/08/23/2016-important-year-hpc-
 
 -- *Slide* --
 ### Part 1: GPGPU Partition on Spartan
-* GPGPU partitions are across multiple universities with allocations in proportion to funding.
-* Theoretical maximum performance of 900+ teraflops. 
+* GPGPU partitions are across multiple universities with allocations in proportion to funding. Theoretical maximum performance of 900+ teraflops. 
+* If you have a UniMelb project and a GPGPU project you can submit to the CPU partition with `#SBATCH -q normal` and then a CPU partition name e.g., `#SBATCH -p physical`
 -- *Slide End* --
 
 -- *Slide* --
